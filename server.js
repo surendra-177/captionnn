@@ -56,6 +56,35 @@ app.post("/create-order", async (req, res) => {
     res.status(500).json({ error: "Error creating order" });
   }
 });
+// --- Subscription Verification Routes ---
+
+// Verify subscription with Google Play Billing (dummy example)
+app.post("/verify-subscription", async (req, res) => {
+  const { userId, purchaseToken } = req.body;
+
+  // Normally, here you’d call Google Play API using purchaseToken
+  // For now, we’ll mock a successful subscription
+  const isValid = true;
+
+  if (isValid) {
+    // Save subscription status in DB (replace with real DB later)
+    res.json({ success: true, premium: true });
+  } else {
+    res.json({ success: false, premium: false });
+  }
+});
+
+// Check user subscription status
+app.get("/user/:id/status", async (req, res) => {
+  const { id } = req.params;
+
+  // Normally fetch from DB
+  // For now return mock status
+  res.json({
+    userId: id,
+    premium: true, // change to false for free users
+  });
+});
 
 const PORT = process.env.PORT || 5000;
 app.get("/", (req, res) => {
